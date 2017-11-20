@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http/';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import 'rxjs/add/operator/map';
 
@@ -19,7 +20,9 @@ import { routing } from './app.routes';
     HttpModule,
     FotoModule,
     PainelModule,
-    routing
+    routing,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [AppComponent, CadastroComponent, ListagemComponent],
   bootstrap: [AppComponent]
