@@ -1,7 +1,9 @@
+import { FotoService } from './../../foto/foto.service';
 import { Component, Input } from '@angular/core';
 import { FotoComponent } from '../../foto/foto-component/foto.component';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from "@angular/router";
 
 
 @Component({
@@ -11,28 +13,47 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class CadastroComponent {
     foto: FotoComponent = new FotoComponent();
     meuForm: FormGroup;
-    
+    mensagem: string = '';
 
-    constructor(private http: Http, private fb: FormBuilder) {
+    constructor(private fotoService: FotoService, 
+        private fb: FormBuilder, 
+        private route: ActivatedRoute, 
+        private router: Router) {
+
         this.meuForm = fb.group({
             titulo: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
             url: ['', Validators.required],
             descricao: [''],
         });
+
+        this.route.params.subscribe(params => {
+
+            let id = params['id'];
+
+            if (id) {
+                this.fotoService.buscaPorId(id)
+                    .subscribe(
+                    foto => this.foto = foto,
+                    erro => console.log(erro));
+            }
+        });
+
     }
 
     cadastrar(event) {
         event.preventDefault();
 
         console.log(this.foto);
-        
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
 
-        this.http.post('v1/fotos', JSON.stringify(this.foto), { headers: headers })
-            .subscribe(() => {
-                this.foto = new FotoComponent();
-                console.log('Foto salva com sucesso');
-            }, erro => console.log(erro));
+        this.fotoService
+        .cadastra(this.foto)
+        .subscribe(res => {
+            this.mensagem = res.mensagem;
+            this.foto = new FotoComponent();
+            if(!res.inclusao) this.router.navigate(['']);
+        }, erro => {
+            console.log(erro);
+            this.mensagem = 'Não foi possível savar a foto';
+        });
     }
 }

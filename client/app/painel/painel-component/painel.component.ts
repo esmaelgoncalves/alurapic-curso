@@ -2,7 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
     selector: 'painel',
-    templateUrl: './app/painel/painel-component/painel.component.html'
+    templateUrl: './app/painel/painel-component/painel.component.html',
+    styleUrls: ['./app/painel/painel-component/painel.component.css']
 })
 export class PainelComponent implements OnInit {
     
