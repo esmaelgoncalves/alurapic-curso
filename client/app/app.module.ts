@@ -1,5 +1,7 @@
+import { BotaoModule } from './botao/botao.module';
 import { PainelModule } from './painel/painel.module';
 import { FotoModule } from './foto/foto.module';
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
@@ -22,7 +24,8 @@ import { routing } from './app.routes';
     PainelModule,
     routing,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BotaoModule
   ],
   declarations: [AppComponent, CadastroComponent, ListagemComponent],
   bootstrap: [AppComponent]
